@@ -48,7 +48,13 @@ const AuthorType = new GraphQLObjectType({
     description: 'Book written by author',
     fields: () => ({
         id: { type: GraphQLNonNull(GraphQLInt) }, // resolve not need since it will be pulled directly from the `books` object
-        name: {type: GraphQLNonNull(GraphQLString) }
+        name: {type: GraphQLNonNull(GraphQLString) },
+        books: {
+            type: GraphQLList(BookType),
+            resolve: (author) => { // parent is author
+                return books.filter(book => author.id === book.authorId)
+            }
+        }
     })
 })
 
