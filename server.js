@@ -4,7 +4,10 @@ const PORT = process.env.PORT || 5000
 const {
     GraphQLSchema,
     GraphQLObjectType,
-    GraphQLString
+    GraphQLString,
+    GraphQLList,
+    GraphQLInt,
+    GraphQLNonNull
 } = require('graphql')
 
 
@@ -40,33 +43,30 @@ const books = [
     { id: 22, name: "Host", authorId: 4 }
 ]
 
-const schema = new GraphQLSchema({
-    query: new GraphQLObjectType({
-        name: "hello_world",
-        fields: () => ({
-            message: {
-                type: GraphQLString,
-                resolve: () => "Returning hello world"
-            },
-            field2: {
-                type: GraphQLString,
-                resolve: () => "Hello from field2"
-            },
-            field3: {
-                type: GraphQLString,
-                resolve: () => "Hello from field3"
-            },
-            field4: {
-                type: GraphQLString,
-                resolve: () => "Hello from field4"
-            },
-            
-        })
+const BookType = new GraphQLObjectType({
+    name: 'Book',
+    description: 'Book written by author',
+    resolve: () => ({
+        id: { type: GraphQLNonNull(GraphQLInt) }, // resolve not need since it will be pulled directly from the `books` object
+        name: {type: GraphQLNonNull(GraphQLString) },
+        description: {type: GraphQLNonNull(GraphQLString) },
+    })
+})
+
+const RootQueryType = new GraphQLObjectType({
+    name: 'Query',
+    description: 'Root query',
+    fields: () => ({
+        books: {
+            type: new GraphQLList(BookType),
+            description: 'List of Books available',
+            resolve: () => books
+        }
     })
 })
 
 app.use('/graphql', expressGraphQL.graphqlHTTP(({
-    schema: schema,
+    // schema: schema,
     graphiql: true
 })))
 
@@ -75,5 +75,5 @@ app.listen(PORT, () => {
 })
 
 app.get('/', (req, res) => {
-    res.send("Hello, Kevin! This is your GraphQL playground")
+    res.send(`Hello, Kevin! Head over to <b> <i> <a href = "/graphql"> /graphql </a> </i> </b> to your GraphQL playground.`)
 })
