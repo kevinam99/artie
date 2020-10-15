@@ -149,10 +149,10 @@ const RootMutationType = new GraphQLObjectType({
                 if(index > -1)
                 {
                     books.splice(index, 1)
-                    return `${book} removed`
+                    return `book removed`
                 }
                 else{
-                    return `Cannot find ${book}`
+                    return `Cannot find book`
                 }
             }
     
@@ -186,10 +186,10 @@ const RootMutationType = new GraphQLObjectType({
                 if(index > -1)
                 {
                     authors.splice(index, 1)
-                    return `${author} removed`
+                    return `author removed`
                 }
                 else{
-                    return `Cannot find ${author}`
+                    return `Cannot find author`
                 }
                 
             }
