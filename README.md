@@ -3,7 +3,7 @@
 Artie is a librarian program I wrote in NodeJS to learn GraphQL. Boy, oh, boy, isn't it amazing!
 
 ## Getting started
-1. Clone the repo (duh!)
+1. Clone the repo and run ```npm install``` (duh!)
 2. Run ```npm run dev``` to start the server at port 5000.
 3. Go to [localhost:5000/graphql](http://localhost:5000/graphql) to start playing around with GraphiQl (pronounced: graphical).
 4. ```server.js``` contains all the server side code.
