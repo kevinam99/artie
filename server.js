@@ -43,13 +43,22 @@ const books = [
     { id: 22, name: "Host", authorId: 4 }
 ]
 
+const AuthorType = new GraphQLObjectType({
+    name: 'Author',
+    description: 'Author name',
+    fields: () => ({
+        id: { type: GraphQLNonNull(GraphQLInt) },
+        name: { type: GraphQLNonNull(GraphQLString) }
+    })
+})
+
 const BookType = new GraphQLObjectType({
     name: 'Book',
     description: 'Book written by author',
-    resolve: () => ({
+    fields: () => ({
         id: { type: GraphQLNonNull(GraphQLInt) }, // resolve not need since it will be pulled directly from the `books` object
         name: {type: GraphQLNonNull(GraphQLString) },
-        description: {type: GraphQLNonNull(GraphQLString) },
+        authorId: { type: GraphQLNonNull(GraphQLInt) }
     })
 })
 
@@ -59,14 +68,24 @@ const RootQueryType = new GraphQLObjectType({
     fields: () => ({
         books: {
             type: new GraphQLList(BookType),
-            description: 'List of Books available',
+            description: 'List of books available',
             resolve: () => books
+        },
+        authors: {
+            type: new GraphQLList(AuthorType),
+            description: 'List of authors',
+            resolve: () => authors
         }
     })
 })
 
+const schema = new GraphQLSchema({
+    query: RootQueryType
+})
+
+
 app.use('/graphql', expressGraphQL.graphqlHTTP(({
-    // schema: schema,
+    schema: schema,
     graphiql: true
 })))
 
