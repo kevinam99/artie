@@ -62,7 +62,7 @@ const BookType = new GraphQLObjectType({
         author: {
             type: AuthorType,
             resolve: (book) => {
-                return authors.find(author => author.id == book.authorId)
+                return authors.find(author => author.id === book.authorId)
             }
         }
     })
@@ -78,6 +78,11 @@ const RootQueryType = new GraphQLObjectType({
             type: new GraphQLList(BookType),
             description: 'List of books available',
             resolve: () => books
+        },
+        authors: {
+            type: new GraphQLList(AuthorType),
+            description: 'List of authors available',
+            resolve: () => authors
         }
     })
 })
