@@ -48,5 +48,68 @@ Artie is a librarian program I wrote in NodeJS to learn GraphQL. Boy, oh, boy, i
 1. Authors - List of authors.
 2. Books - List of books.
 
+## Sample queries to get you started
+### Run these commands in GraphiQL after starting the server
+1. To get all the books available.  
+    ```graphql
+        query {
+            books {
+                name
+            }
+        }
+    ```  
+2. To get all the books with the authors' names.
+    ```graphql
+        query {
+            books {
+                name,
+                author {
+                    name
+                }
+            }
+        }
+    ```
+
+3. To get just the available authors  
+    ```graphql
+        query {
+            authors {
+                name
+            }
+        }
+    ```
+4. To add a book
+    ```graphql
+        mutation {
+        addBook(bookName: "Intervention", authorId: 4) {
+            id # returns the id of the newly added book.
+        }
+    }
+    ```
+5. To remove a book
+    ```graphql
+        mutation {
+        removeBook(id: 22) {
+            id
+        }
+    }
+    ```
+6. To add an author
+    ```graphql
+       mutation {
+        addAuthor(authorName: "Tom Clancy") {
+            name,
+            id # returns the name and id of the newly added author.
+        }
+    }
+    ```
+7. To remove an author
+    ```graphql
+       mutation {
+            removeAuthor(authorId: 5) {
+                name
+            }
+        }
+    ```
 ## Issues
 * Need to return the result of the remove mutations in a better way. Currently, it gives an error message but it does the work.
